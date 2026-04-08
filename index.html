@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>KEVIN · Portal Minecraft</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #1a2a1f;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      position: relative;
+    }
+
+    /* BACKGROUND PIXEL ART MINECRAFT */
+    .pixel-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      background-image: 
+        repeating-linear-gradient(0deg, 
+          rgba(70, 55, 35, 0.5) 0px, rgba(70, 55, 35, 0.5) 2px,
+          rgba(50, 40, 25, 0.4) 2px, rgba(50, 40, 25, 0.4) 6px),
+        repeating-linear-gradient(90deg, 
+          rgba(45, 85, 30, 0.45) 0px, rgba(45, 85, 30, 0.45) 3px,
+          rgba(25, 65, 15, 0.4) 3px, rgba(25, 65, 15, 0.4) 8px),
+        repeating-radial-gradient(circle at 30% 40%, rgba(0,0,0,0.2) 2px, transparent 2px, transparent 10px),
+        repeating-linear-gradient(45deg, #3c3a28 0px, #3c3a28 1px, #5e7a3e 1px, #5e7a3e 5px);
+      background-blend-mode: overlay, normal, normal;
+      background-size: auto, auto, 20px 20px, 28px 28px;
+    }
+
+    .pixel-bg::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 2px, transparent 2px, transparent 8px);
+      pointer-events: none;
+    }
+
+    /* MAIN CARD */
+    .minecraft-card {
+      position: relative;
+      z-index: 10;
+      max-width: 620px;
+      width: 100%;
+      margin: 0 auto;
+      background: rgba(25, 28, 20, 0.85);
+      backdrop-filter: blur(12px);
+      border-radius: 36px;
+      border: 3px solid #a07e4c;
+      box-shadow: 0 0 0 2px #553e1f, 0 0 0 5px #2c1e12, 0 20px 35px rgba(0,0,0,0.6);
+      padding: 28px 26px 40px;
+      transition: transform 0.2s ease;
+    }
+
+    /* profile section */
+    .profile {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .avatar {
+      display: inline-block;
+      width: 120px;
+      height: 120px;
+      border-radius: 32px;
+      border: 5px solid #f0d98d;
+      box-shadow: 0 7px 0 #5a3e1a;
+      overflow: hidden;
+      background: #1e2a1a;
+      transition: 0.2s;
+      image-rendering: crisp-edges;
+      image-rendering: pixelated;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* NAMA KEVIN */
+    .nama-kevin {
+      font-family: 'Press Start 2P', 'Inter', monospace;
+      font-size: 2.6rem;
+      letter-spacing: 3px;
+      margin-top: 20px;
+      background: linear-gradient(145deg, #ffea8a, #f5b81b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 4px 4px 0 #3e2a13;
+      font-weight: 800;
+      word-break: keep-all;
+    }
+
+    .sub {
+      font-family: 'Inter', monospace;
+      font-weight: 700;
+      background: #1f2a0ecc;
+      display: inline-block;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      color: #f7f0b2;
+      backdrop-filter: blur(4px);
+      border: 1px solid #e3bc6a;
+      margin-top: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    /* MINECRAFT BUTTONS */
+    .links-container {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin: 20px 0 20px;
+    }
+
+    .minecraft-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #2b2a1f;
+      background-image: linear-gradient(145deg, #3e3a2c, #222116);
+      border-radius: 60px;
+      padding: 6px 22px 6px 18px;
+      border: 2px solid #7f673b;
+      box-shadow: 0 6px 0 #2c2418;
+      transition: all 0.1s linear;
+      text-decoration: none;
+      color: #f7efb0;
+      font-weight: 800;
+      font-size: 1.2rem;
+      font-family: 'Inter', monospace;
+      cursor: pointer;
+    }
+
+    .minecraft-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 0 #2c2418;
+      background: #4f4430;
+      border-color: #e7bc6e;
+    }
+
+    .minecraft-btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #2c2418;
+    }
+
+    .btn-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1;
+    }
+
+    .btn-left i {
+      font-size: 2rem;
+      width: 42px;
+      text-align: center;
+      filter: drop-shadow(2px 2px 0 #1f1a0e);
+    }
+
+    .btn-left span {
+      flex: 1;
+      font-weight: 700;
+    }
+
+    /* TOMBOL COPY DENGAN IKON */
+    .copy-link-btn {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 40px;
+      padding: 8px 14px;
+      margin-left: 12px;
+      transition: all 0.1s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      font-weight: normal;
+      border: 1px solid #c2aa62;
+      backdrop-filter: blur(4px);
+    }
+    
+    .copy-link-btn i {
+      font-size: 1.2rem;
+      margin: 0;
+      width: auto;
+      color: #f7e9b0;
+    }
+    
+    .copy-link-btn span {
+      font-size: 0.7rem;
+      font-family: 'Press Start 2P', monospace;
+      letter-spacing: 0.5px;
+    }
+    
+    .copy-link-btn:hover {
+      background: #5f7a3e;
+      border-color: #ffe0a3;
+      color: #fff6cf;
+    }
+    
+    .copy-link-btn:active {
+      transform: scale(0.95);
+    }
+
+    .btn-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .support-btn {
+      background: #7c3c1f;
+      background-image: linear-gradient(145deg, #a35e2e, #5f2f12);
+      border-color: #f5bc70;
+      box-shadow: 0 6px 0 #3b210f;
+      color: #fff0bb;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 28px;
+      font-size: 0.7rem;
+      color: #d4c986;
+      font-family: 'Press Start 2P', monospace;
+      letter-spacing: 0.5px;
+      border-top: 1px dashed #ab914b;
+      padding-top: 18px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .footer-note span i {
+      margin-right: 6px;
+    }
+
+    @keyframes pixelGlow {
+      0% { text-shadow: 0 0 2px #ffd966; }
+      100% { text-shadow: 0 0 8px #ffb347; }
+    }
+
+    .nama-kevin:hover {
+      animation: pixelGlow 0.4s infinite alternate;
+    }
+
+    /* ALERT KECIL "TERSALIN" - simpel, tidak mengganggu */
+    .copy-alert-mini {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) scale(0.9);
+      background: #1e2a1a;
+      border: 2px solid #f5c542;
+      color: #f9efb2;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.8rem;
+      padding: 10px 24px;
+      border-radius: 60px;
+      z-index: 9999;
+      box-shadow: 0 6px 0 #2a3a1a;
+ backdrop-filter: blur(12px);
+      white-space: nowrap;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.1s ease, transform 0.2s ease;
+      pointer-events: none;
+    }
+    
+    .copy-alert-mini.show {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+      animation: miniFadeUp 1.2s ease forwards;
+    }
+    
+    @keyframes miniFadeUp {
+      0% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+      }
+      70% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-8px) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px) scale(0.95);
+        visibility: hidden;
+      }
+    }
+
+    @media (max-width: 550px) {
+      .minecraft-card {
+        padding: 20px 18px 32px;
+      }
+      .nama-kevin {
+        font-size: 1.9rem;
+        letter-spacing: 1px;
+      }
+      .btn-left i {
+        font-size: 1.6rem;
+        width: 32px;
+      }
+      .minecraft-btn {
+        font-size: 0.9rem;
+        padding: 5px 14px;
+        flex-wrap: wrap;
+      }
+      .copy-link-btn span {
+        display: none;
+      }
+      .copy-link-btn {
+        padding: 6px 10px;
+        margin-left: 6px;
+      }
+      .copy-link-btn i {
+        font-size: 1rem;
+      }
+      .avatar {
+        width: 95px;
+        height: 95px;
+      }
+      .btn-left {
+        gap: 10px;
+      }
+      .copy-alert-mini {
+        font-size: 0.65rem;
+        padding: 8px 18px;
+        bottom: 70px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="pixel-bg"></div>
+
+<div class="minecraft-card">
+  <div class="profile">
+    <div class="avatar">
+      <img src="https://i.urusai.cc/w9PdR.jpg" alt="KEVIN profile" loading="eager" onerror="this.onerror=null;this.src='https://via.placeholder.com/200x200?text=KEVIN+MC';">
+    </div>
+    <div class="nama-kevin">KEVIN</div>
+    <div class="sub">
+      <i class="fas fa-pickaxe"></i>  CRAFTER & MINECRAFT LEGEND  <i class="fas fa-dragon"></i>
+    </div>
+  </div>
+
+  <!-- DAFTAR LINK SOSIAL MEDIA DENGAN TOMBOL COPY -->
+  <div class="links-container">
+    <!-- WHATSAPP CHANNEL -->
+    <div class="minecraft-btn" data-url="https://whatsapp.com/channel/0029VbB10A6FcovzxZ0Lc92r" data-platform="WHATSAPP CHANNEL">
+      <div class="btn-left">
+        <i class="fab fa-whatsapp" style="color: #25d366;"></i>
+        <span>WHATSAPP CHANNEL</span>
+      </div>
+      <div class="btn-right">
+        <div class="copy-link-btn" data-copy-url="https://whatsapp.com/channel/0029VbB10A6FcovzxZ0Lc92r" data-name="WHATSAPP">
+          <i class="fas fa-copy"></i>
+          <span>SALIN</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TELEGRAM CHANNEL -->
+    <div class="minecraft-btn" data-url="https://t.me/KevinAddonTexturepack" data-platform="TELEGRAM CHANNEL">
+      <div class="btn-left">
+        <i class="fab fa-telegram" style="color: #34b7f1;"></i>
+        <span>TELEGRAM CHANNEL</span>
+      </div>
+      <div class="btn-right">
+        <div class="copy-link-btn" data-copy-url="https://t.me/KevinAddonTexturepack" data-name="TELEGRAM">
+          <i class="fas fa-copy"></i>
+          <span>SALIN</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUPPORT -->
+    <div class="minecraft-btn support-btn" data-url="https://sociabuzz.com/kevinke/tribe" data-platform="SUPPORT">
+      <div class="btn-left">
+        <i class="fas fa-heart" style="color: #ffae70;"></i>
+        <span>SUPPORT</span>
+      </div>
+      <div class="btn-right">
+        <div class="copy-link-btn" data-copy-url="https://sociabuzz.com/kevinke/tribe" data-name="SUPPORT">
+          <i class="fas fa-copy"></i>
+          <span>SALIN</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIKTOK -->
+    <div class="minecraft-btn" data-url="https://www.tiktok.com/@kevin_minecraft01" data-platform="TIKTOK">
+      <div class="btn-left">
+        <i class="fab fa-tiktok"></i>
+        <span>TIKTOK</span>
+      </div>
+      <div class="btn-right">
+        <div class="copy-link-btn" data-copy-url="https://www.tiktok.com/@kevin_minecraft01" data-name="TIKTOK">
+          <i class="fas fa-copy"></i>
+          <span>SALIN</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- YOUTUBE -->
+    <div class="minecraft-btn" data-url="https://youtube.com/@kevin-minecraftt?si=mifOySB4mU9rhl2u" data-platform="YOUTUBE">
+      <div class="btn-left">
+        <i class="fab fa-youtube" style="color: #ff3333;"></i>
+        <span>YOUTUBE</span>
+      </div>
+      <div class="btn-right">
+        <div class="copy-link-btn" data-copy-url="https://youtube.com/@kevin-minecraftt?si=mifOySB4mU9rhl2u" data-name="YOUTUBE">
+          <i class="fas fa-copy"></i>
+          <span>SALIN</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    <span><i class="fas fa-cube"></i> MINECRAFT WORLD</span>
+    <span><i class="fas fa-diamond"></i> KEVIN'S NETHER</span>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // Membuat elemen alert kecil (tersalin) yang muncul sebentar
+    let alertElement = null;
+    
+    function showTersalinAlert(platformName = "") {
+      // Hapus alert yang mungkin masih ada
+      if(alertElement && alertElement.parentNode) {
+        alertElement.classList.remove('show');
+        setTimeout(() => {
+          if(alertElement && alertElement.parentNode) alertElement.remove();
+          alertElement = null;
+        }, 150);
+      }
+      
+      // Buat elemen alert baru
+      const alertDiv = document.createElement('div');
+      alertDiv.className = 'copy-alert-mini';
+      // Tampilkan pesan "Tersalin!" dengan centang hijau
+      alertDiv.innerHTML = `<i class="fas fa-check-circle" style="margin-right: 8px; color: #a5d6a5;"></i> Tersalin! ${platformName ? `📋 ${platformName}` : ''}`;
+      document.body.appendChild(alertDiv);
+      
+      // Force reflow untuk trigger animasi
+      alertDiv.offsetHeight;
+      alertDiv.classList.add('show');
+      alertElement = alertDiv;
+      
+      // Hapus setelah animasi selesai
+      setTimeout(() => {
+        if(alertDiv && alertDiv.parentNode) {
+          alertDiv.classList.remove('show');
+          setTimeout(() => {
+            if(alertDiv && alertDiv.parentNode) alertDiv.remove();
+            if(alertElement === alertDiv) alertElement = null;
+          }, 300);
+        }
+      }, 1200);
+    }
+    
+    // Fungsi copy teks ke clipboard
+    async function copyToClipboard(text, platformName) {
+      try {
+        await navigator.clipboard.writeText(text);
+        showTersalinAlert(platformName);
+        return true;
+      } catch (err) {
+        // Fallback untuk browser lama
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        showTersalinAlert(platformName);
+        return true;
+      }
+    }
+    
+    // Pasang event listener ke semua tombol copy
+    const copyButtons = document.querySelectorAll('.copy-link-btn');
+    copyButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Mencegah event bubbling ke parent
+        const urlToCopy = btn.getAttribute('data-copy-url');
+        let platformName = btn.getAttribute('data-name') || '';
+        if(urlToCopy && urlToCopy !== '') {
+          copyToClipboard(urlToCopy, platformName);
+        } else {
+          // Coba ambil dari parent .minecraft-btn
+          const parentBtn = btn.closest('.minecraft-btn');
+          if(parentBtn) {
+            const parentUrl = parentBtn.getAttribute('data-url');
+            if(parentUrl) {
+              copyToClipboard(parentUrl, platformName);
+            } else {
+              showTersalinAlert("?");
+            }
+          } else {
+            showTersalinAlert("");
+          }
+        }
+      });
+    });
+    
+    // Fitur tambahan: klik area utama button (selain copy) untuk membuka link di tab baru
+    const allMinecraftBtns = document.querySelectorAll('.minecraft-btn');
+    allMinecraftBtns.forEach(btn => {
+      const targetUrl = btn.getAttribute('data-url');
+      if(targetUrl && targetUrl !== '#') {
+        btn.addEventListener('click', (e) => {
+          // Cek apakah target yang diklik adalah copy-link-btn atau di dalamnya
+          let isCopyElement = false;
+          let current = e.target;
+          while(current && current !== btn) {
+            if(current.classList && current.classList.contains('copy-link-btn')) {
+              isCopyElement = true;
+              break;
+            }
+            current = current.parentElement;
+          }
+          if(!isCopyElement) {
+            // Buka link di tab baru
+            window.open(targetUrl, '_blank', 'noopener,noreferrer');
+          }
+        });
+      }
+    });
+    
+    console.log("✅ Minecraft Portal by KEVIN — Alert kecil 'Tersalin' siap digunakan.");
+  })();
+</script>
+
+<style>
+  /* Memperkuat tampilan nama KEVIN */
+  .nama-kevin {
+    font-weight: 900;
+    letter-spacing: 2px;
+    font-size: 2.7rem;
+    background: linear-gradient(135deg, #fff0a5, #f7c530, #e5a012);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: #f5bc50;
+    text-shadow: 5px 5px 0 #38250e;
+  }
+  @media (max-width: 500px) {
+    .nama-kevin {
+      font-size: 2rem;
+      text-shadow: 3px 3px 0 #38250e;
+    }
+  }
+  .minecraft-card {
+    backdrop-filter: blur(16px);
+  }
+  .avatar {
+    box-shadow: 0 8px 0 #4a3118;
+  }
+  .copy-link-btn {
+    transition: all 0.1s linear;
+    user-select: none;
+  }
+  .btn-right {
+    min-width: 85px;
+    justify-content: flex-end;
+  }
+  @media (max-width: 480px) {
+    .btn-right {
+      min-width: 65px;
+    }
+    .copy-link-btn {
+      padding: 5px 8px;
+    }
+  }
+  .copy-link-btn:hover {
+    background: #6f8f4a;
+    transform: scale(1.02);
+  }
+</style>
+</body>
+</html>
